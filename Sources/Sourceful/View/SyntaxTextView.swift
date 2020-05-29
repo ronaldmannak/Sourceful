@@ -369,6 +369,11 @@ open class SyntaxTextView: View {
         super.becomeFirstResponder()
         return self.textView.becomeFirstResponder()
     }
+    
+    open override func mouseDown(with event: NSEvent) {
+        self.textView.becomeFirstResponder()
+//        self.window?.makeFirstResponder(self)
+    }
 
     #endif
     
