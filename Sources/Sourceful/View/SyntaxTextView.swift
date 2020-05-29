@@ -282,6 +282,16 @@ open class SyntaxTextView: View {
     override open var isFirstResponder: Bool {
         return textView.isFirstResponder
     }
+    
+    #elseif os(macOS)
+    
+    open override var canBecomeKeyView: Bool {
+        return true
+    }
+    
+    open override var acceptsFirstResponder: Bool {
+        return true
+    }
 
     #endif
 
