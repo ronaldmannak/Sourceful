@@ -365,10 +365,10 @@ open class SyntaxTextView: View {
     
     #elseif os(macOS)
     
-//    open override func becomeFirstResponder() -> Bool {
-//        super.becomeFirstResponder()
-//        return self.textView.becomeFirstResponder()
-//    }
+    open override func becomeFirstResponder() -> Bool {
+        super.becomeFirstResponder()
+        return self.textView.becomeFirstResponder()
+    }
 
     #endif
     
