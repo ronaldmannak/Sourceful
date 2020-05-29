@@ -362,6 +362,13 @@ open class SyntaxTextView: View {
             contentInset = UIEdgeInsets.zero
         }
     }
+    
+    #elseif os(macOS)
+    
+//    open override func becomeFirstResponder() -> Bool {
+//        super.becomeFirstResponder()
+//        return self.textView.becomeFirstResponder()
+//    }
 
     #endif
     

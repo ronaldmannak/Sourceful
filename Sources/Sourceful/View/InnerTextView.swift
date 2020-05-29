@@ -172,5 +172,16 @@ class InnerTextView: TextView {
 	}
 	
 	#endif
+    
+    #if os(macOS)
+    
+    open override var canBecomeKeyView: Bool {
+        return true
+    }
+    
+    open override var acceptsFirstResponder: Bool {
+        return true
+    }
+    #endif
 	
 }
