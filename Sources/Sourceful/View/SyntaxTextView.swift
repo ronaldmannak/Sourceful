@@ -69,7 +69,7 @@ open class SyntaxTextView: View {
 
     #if os(macOS)
     
-    var autocompleteWords: [String]? {
+    public var autocompleteWords: [String]? {
         didSet {
             textView.autocompleteWords = autocompleteWords
         }
