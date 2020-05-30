@@ -68,6 +68,12 @@ open class SyntaxTextView: View {
     var ignoreSelectionChange = false
 
     #if os(macOS)
+    
+    var autocompleteWords: [String]? {
+        didSet {
+            textView.autocompleteWords = autocompleteWords
+        }
+    }
 
     let wrapperView = TextViewWrapperView()
 

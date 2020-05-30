@@ -26,6 +26,8 @@ class InnerTextView: TextView {
 	var theme: SyntaxColorTheme?
 	
 	var cachedParagraphs: [Paragraph]?
+    
+    var autocompleteWords: [String]?
 	
 	func invalidateCachedParagraphs() {
 		cachedParagraphs = nil
@@ -175,13 +177,47 @@ class InnerTextView: TextView {
     
     #if os(macOS)
     
-    open override var canBecomeKeyView: Bool {
-        return true
-    }
+//    open override var canBecomeKeyView: Bool {
+//        return true
+//    }
+//
+//    open override var acceptsFirstResponder: Bool {
+//        return true
+//    }
     
-    open override var acceptsFirstResponder: Bool {
-        return true
+    override func didChangeText() {
+        
+        super.didChangeText()
+        
+        // Invoke lint after delay
+        NSObject.cancelPreviousPerformRequests(withTarget: self)
+        perform(#selector(complete(_:)), with: nil, afterDelay: 0.5)
+    }
+	
+    override func completions(forPartialWordRange charRange: NSRange, indexOfSelectedItem index: UnsafeMutablePointer<Int>) -> [String]? {
+        
+        guard charRange.length > 0, let range = Range(charRange, in: text) else { return nil }
+
+        var wordList = Set<String>()
+        let partialWord = String(text[range])
+
+        // Add words in document to wordList
+        let documentWords: [String] = {
+            // do nothing if the particle word is a symbol
+            guard charRange.length > 1 || CharacterSet.alphanumerics.contains(partialWord.unicodeScalars.first!) else { return [] }
+
+            let pattern = "(?:^|\\b|(?<=\\W))" + NSRegularExpression.escapedPattern(for: partialWord) + "\\w+?(?:$|\\b)"
+            let regex = try! NSRegularExpression(pattern: pattern)
+
+            return regex.matches(in: self.string, range: NSRange(..<self.string.endIndex, in: self.string)).map { (self.string as NSString).substring(with: $0.range) }
+        }()
+        _ = documentWords.map { wordList.insert($0) }
+
+        // Add words defined in lexer
+        if let autocompleteWords = self.autocompleteWords {
+            _ = autocompleteWords.map { wordList.insert($0) }
+        }
+        return Array(wordList)
     }
     #endif
-	
 }
