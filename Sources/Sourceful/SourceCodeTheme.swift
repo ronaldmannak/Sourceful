@@ -10,6 +10,8 @@ import Foundation
 
 public protocol SourceCodeTheme: SyntaxColorTheme {
 	
+    init(font: Font)
+    
 	func color(for syntaxColorType: SourceCodeTokenType) -> Color
 	
 }
