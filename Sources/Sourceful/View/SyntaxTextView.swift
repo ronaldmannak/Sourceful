@@ -371,16 +371,46 @@ open class SyntaxTextView: View {
     
     #elseif os(macOS)
     
-    open override func becomeFirstResponder() -> Bool {
-        super.becomeFirstResponder()
-        return self.textView.becomeFirstResponder()
+//    open override func becomeFirstResponder() -> Bool {
+//        super.becomeFirstResponder()
+//        return self.textView.becomeFirstResponder()
+//    }
+//
+//    open override func mouseDown(with event: NSEvent) {
+////        self.textView.becomeFirstResponder()
+//        self.window?.makeFirstResponder(self.textView)
+//    }
+
+    public func highlight(line: Int, column: Int = 0, color: NSColor, message: String? = nil) {
+
+        DispatchQueue.main.sync {
+
+            let text = self.text as NSString
+
+            var lineIndex = 1
+            var index = 0
+            let stringLength = self.text.count
+
+            while index < stringLength {
+
+                let oldIndex = index
+                index = NSMaxRange(text.lineRange(for: NSMakeRange(index, 0)))
+
+                if lineIndex == line {
+                    print("Line \(lineIndex): \(text.substring(with: text.lineRange(for: NSMakeRange(oldIndex, 0))))")
+                    let highlightedRange = text.lineRange(for: NSMakeRange(oldIndex, 0))
+    //                    self.contentTextView.textStorage!.addAttribute(NSAttributedString.Key.backgroundColor, value: color, range: highlightedRange)
+                    
+                    let columnHighlightRange = NSMakeRange(highlightedRange.location + column - 1, highlightedRange.length - column + 1)
+                    self.contentTextView.textStorage!.addAttribute(NSAttributedString.Key.backgroundColor, value: color, range: columnHighlightRange)
+
+                }
+
+                lineIndex += 1
+            }
+        }
     }
     
-    open override func mouseDown(with event: NSEvent) {
-//        self.textView.becomeFirstResponder()
-        self.window?.makeFirstResponder(self.textView)
-    }
-
     #endif
     
     public var theme: SyntaxColorTheme? {
