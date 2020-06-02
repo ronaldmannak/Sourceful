@@ -397,7 +397,7 @@ open class SyntaxTextView: View {
                 index = NSMaxRange(text.lineRange(for: NSMakeRange(index, 0)))
 
                 if lineIndex == line {
-                    print("Line \(lineIndex): \(text.substring(with: text.lineRange(for: NSMakeRange(oldIndex, 0))))")
+//                    print("Line \(lineIndex): \(text.substring(with: text.lineRange(for: NSMakeRange(oldIndex, 0))))")
                     let highlightedRange = text.lineRange(for: NSMakeRange(oldIndex, 0))
     //                    self.contentTextView.textStorage!.addAttribute(NSAttributedString.Key.backgroundColor, value: color, range: highlightedRange)
                     

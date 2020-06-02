@@ -216,7 +216,7 @@ class InnerTextView: TextView {
         // Add words defined in lexer
         if let autocompleteWords = self.autocompleteWords {
            
-            let syntaxWords = autocompleteWords.filter { $0.range(of: partialWord, options: [.caseInsensitive, .anchored]) != nil && $0.count != partialWord.count }
+             let syntaxWords = autocompleteWords.filter { $0.range(of: partialWord, options: [.caseInsensitive, .anchored]) != nil }
 
             wordList.append(contentsOf: syntaxWords)
         }
