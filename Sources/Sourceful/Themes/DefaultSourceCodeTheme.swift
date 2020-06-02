@@ -12,19 +12,21 @@ public struct DefaultSourceCodeTheme: SourceCodeTheme {
 	
 	public init() {
 		
-        font = Font(name: "Menlo", size: 12)!
+        self.init(font: Font(name: "Menlo", size: 12)!)
     }
 
     public init(font: Font) {
         
         self.font = font
+        let lineNumbersFont = Font(name: font.fontName, size: font.pointSize - 2)!
+        self.lineNumbersStyle = LineNumbersStyle(font: lineNumbersFont, textColor: DefaultSourceCodeTheme.lineNumbersColor)
     }
 	
 	private static var lineNumbersColor: Color {
 		return Color(red: 100/255, green: 100/255, blue: 100/255, alpha: 1.0)
 	}
 	
-	public let lineNumbersStyle: LineNumbersStyle? = LineNumbersStyle(font: Font(name: "Menlo", size: 16)!, textColor: lineNumbersColor)
+	public let lineNumbersStyle: LineNumbersStyle?
 	
 	public let gutterStyle: GutterStyle = GutterStyle(backgroundColor: Color(red: 21/255.0, green: 22/255, blue: 31/255, alpha: 1.0), minimumWidth: 32)
 	
