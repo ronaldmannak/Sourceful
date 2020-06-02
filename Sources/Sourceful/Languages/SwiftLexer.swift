@@ -41,8 +41,8 @@ public class SwiftLexer: SourceCodeRegexLexer {
 		generators.append(regexGenerator("//(.*)", tokenType: .comment))
 		
 		// Block comment
-		generators.append(regexGenerator("(/\\*)(.*)(\\*/)", options: [.dotMatchesLineSeparators], tokenType: .comment))
-
+        generators.append(regexGenerator("(/\\*)(.*)(\\*/)", options: [.dotMatchesLineSeparators], tokenType: .comment))
+        
 		// Single-line string literal
 		generators.append(regexGenerator("(\"|@\")[^\"\\n]*(@\"|\")", tokenType: .string))
 		
