@@ -11,6 +11,7 @@ import CoreGraphics
 
 #if os(macOS)
 	import AppKit
+    import Carbon.HIToolbox
 #else
 	import UIKit
 #endif
@@ -189,9 +190,17 @@ class InnerTextView: TextView {
         
         super.didChangeText()
         
+        if let event = self.window?.currentEvent,
+            event.type == .keyDown,
+            (event.keyCode == UInt16(kVK_Escape) || event.keyCode == UInt16(kVK_Delete)) {
+            print("ESC")
+            NSObject.cancelPreviousPerformRequests(withTarget: self)
+            return
+        }
+        
         // Invoke lint after delay
         NSObject.cancelPreviousPerformRequests(withTarget: self)
-        perform(#selector(complete(_:)), with: nil, afterDelay: 0.5)
+        perform(#selector(complete(_:)), with: nil, afterDelay: 0.7)
     }
 	
     override func completions(forPartialWordRange charRange: NSRange, indexOfSelectedItem index: UnsafeMutablePointer<Int>) -> [String]? {
