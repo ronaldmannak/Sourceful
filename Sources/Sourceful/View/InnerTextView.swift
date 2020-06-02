@@ -192,8 +192,8 @@ class InnerTextView: TextView {
         
         if let event = self.window?.currentEvent,
             event.type == .keyDown,
-            (event.keyCode == UInt16(kVK_Escape) || event.keyCode == UInt16(kVK_Delete)) {
-            print("ESC")
+              (event.keyCode == UInt16(kVK_Escape) || event.keyCode == UInt16(kVK_Delete) || event.keyCode == UInt16(kVK_UpArrow) || event.keyCode == UInt16(kVK_DownArrow) || event.keyCode == UInt16(kVK_LeftArrow) || event.keyCode == UInt16(kVK_RightArrow)) {
+            
             NSObject.cancelPreviousPerformRequests(withTarget: self)
             return
         }
