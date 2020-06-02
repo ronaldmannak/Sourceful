@@ -17,10 +17,12 @@ import Foundation
 extension SyntaxTextView: InnerTextViewDelegate {
 	
 	func didUpdateCursorFloatingState() {
-		
 		selectionDidChange()
-		
 	}
+    
+    func didChangeFont(_ font: Font) {
+        self.delegate?.didChangeFont(font)
+    }
 	
 }
 

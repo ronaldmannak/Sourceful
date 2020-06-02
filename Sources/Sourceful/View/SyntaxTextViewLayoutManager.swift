@@ -23,6 +23,8 @@ public enum EditorPlaceholderState {
 public extension NSAttributedString.Key {
 	
 	static let editorPlaceholder = NSAttributedString.Key("editorPlaceholder")
+    static let compilerError = NSAttributedString.Key("compilerError")
+    static let compilerWarning = NSAttributedString.Key("compilerWarning")
 
 }
 

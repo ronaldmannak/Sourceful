@@ -25,10 +25,12 @@ public protocol SyntaxTextViewDelegate: class {
 
     func lexerForSource(_ source: String) -> Lexer
 
+    func didChangeFont(_ font: Font)
 }
 
 // Provide default empty implementations of methods that are optional.
 public extension SyntaxTextViewDelegate {
+    
     func didChangeText(_ syntaxTextView: SyntaxTextView) { }
 
     func didChangeSelectedRange(_ syntaxTextView: SyntaxTextView, selectedRange: NSRange) { }
@@ -385,7 +387,7 @@ open class SyntaxTextView: View {
 
         DispatchQueue.main.sync {
 
-            let text = self.text as NSString
+            guard let text = self.contentTextView.textStorage?.string as NSString? else { return assertionFailure() }
 
             var lineIndex = 1
             var index = 0
@@ -398,14 +400,12 @@ open class SyntaxTextView: View {
 
                 if lineIndex == line {
                     let highlightedRange = text.lineRange(for: NSMakeRange(oldIndex, 0))
-//                    self.contentTextView.textStorage!.addAttribute(.backgroundColor, value: color, range: highlightedRange)
                     
                     let columnHighlightRange = NSMakeRange(highlightedRange.location + column - 1, highlightedRange.length - column + 1)
                     self.contentTextView.textStorage?.addAttribute(.backgroundColor, value: color, range: columnHighlightRange)
                     if let message = message {
                         self.contentTextView.textStorage?.addAttribute(.toolTip, value: message, range: columnHighlightRange)
                     }
-
                 }
 
                 lineIndex += 1
@@ -428,6 +428,7 @@ open class SyntaxTextView: View {
             textView.backgroundColor = theme.backgroundColor
             textView.theme = theme
             textView.font = theme.font
+            cachedThemeInfo = nil
 
             didUpdateText()
         }

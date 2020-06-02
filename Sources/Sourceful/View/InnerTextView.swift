@@ -18,6 +18,7 @@ import CoreGraphics
 
 protocol InnerTextViewDelegate: class {
 	func didUpdateCursorFloatingState()
+    func didChangeFont(_ font: Font)
 }
 
 class InnerTextView: TextView {
@@ -239,12 +240,9 @@ class InnerTextView: TextView {
     override func changeFont(_ sender: Any?) {
         guard let oldFont = self.font, let fontManager = sender as? NSFontManager else { return }
         let newFont = fontManager.convert(oldFont)
-        self.font = newFont
-
-        // FIXME: line number view font size stays old font size.
-        // Line numbers are drawn in TextViewWrapperView's draw
-        // and uses font attributes of paragraph.
-        // Line numbers currenlty are only redrawn when a new line is added
+        
+        innerDelegate?.didChangeFont(newFont)
+        super.changeFont(sender)        
     }
     
     #endif
