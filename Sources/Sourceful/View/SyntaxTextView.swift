@@ -293,13 +293,13 @@ open class SyntaxTextView: View {
     
     #elseif os(macOS)
     
-    open override var canBecomeKeyView: Bool {
-        return true
-    }
-    
-    open override var acceptsFirstResponder: Bool {
-        return true
-    }
+//    open override var canBecomeKeyView: Bool {
+//        return true
+//    }
+//    
+//    open override var acceptsFirstResponder: Bool {
+//        return true
+//    }
 
     #endif
 
