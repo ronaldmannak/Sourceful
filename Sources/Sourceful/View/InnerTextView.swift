@@ -179,13 +179,13 @@ class InnerTextView: TextView {
     
     #if os(macOS)
     
-//    open override var canBecomeKeyView: Bool {
-//        return true
-//    }
-//
-//    open override var acceptsFirstResponder: Bool {
-//        return true
-//    }
+    open override var canBecomeKeyView: Bool {
+        return true
+    }
+
+    open override var acceptsFirstResponder: Bool {
+        return true
+    }
     
     override func didChangeText() {
         
