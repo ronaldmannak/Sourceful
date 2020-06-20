@@ -385,31 +385,28 @@ open class SyntaxTextView: View {
 
     public func highlight(line: Int, column: Int = 0, color: NSColor, message: String? = nil) {
 
-        DispatchQueue.main.sync {
+        guard let text = self.contentTextView.textStorage?.string as NSString? else { return assertionFailure() }
 
-            guard let text = self.contentTextView.textStorage?.string as NSString? else { return assertionFailure() }
+        var lineIndex = 1
+        var index = 0
+        let stringLength = self.text.count
 
-            var lineIndex = 1
-            var index = 0
-            let stringLength = self.text.count
+        while index < stringLength {
 
-            while index < stringLength {
+            let oldIndex = index
+            index = NSMaxRange(text.lineRange(for: NSMakeRange(index, 0)))
 
-                let oldIndex = index
-                index = NSMaxRange(text.lineRange(for: NSMakeRange(index, 0)))
-
-                if lineIndex == line {
-                    let highlightedRange = text.lineRange(for: NSMakeRange(oldIndex, 0))
-                    
-                    let columnHighlightRange = NSMakeRange(highlightedRange.location + column - 1, highlightedRange.length - column + 1)
-                    self.contentTextView.textStorage?.addAttribute(.backgroundColor, value: color, range: columnHighlightRange)
-                    if let message = message {
-                        self.contentTextView.textStorage?.addAttribute(.toolTip, value: message, range: columnHighlightRange)
-                    }
+            if lineIndex == line {
+                let highlightedRange = text.lineRange(for: NSMakeRange(oldIndex, 0))
+                
+                let columnHighlightRange = NSMakeRange(highlightedRange.location + column - 1, highlightedRange.length - column + 1)
+                self.contentTextView.textStorage?.addAttribute(.backgroundColor, value: color, range: columnHighlightRange)
+                if let message = message {
+                    self.contentTextView.textStorage?.addAttribute(.toolTip, value: message, range: columnHighlightRange)
                 }
-
-                lineIndex += 1
             }
+
+            lineIndex += 1
         }
     }
     
