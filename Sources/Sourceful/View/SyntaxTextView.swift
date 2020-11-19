@@ -398,8 +398,16 @@ open class SyntaxTextView: View {
 
             if lineIndex == line {
                 let highlightedRange = text.lineRange(for: NSMakeRange(oldIndex, 0))
-                
-                let columnHighlightRange = NSMakeRange(highlightedRange.location + column - 1, highlightedRange.length - column + 1)
+                                            
+                // Under MacOS11, the range length can be negative
+                // Quick fix if that happens
+                let columnHighlightRange: NSRange
+                if (highlightedRange.length - column + 1) >= 0 {
+                    columnHighlightRange = NSMakeRange(highlightedRange.location + column - 1, highlightedRange.length - column + 1)
+                } else {
+                    // temp fix: Just highlight entire line
+                    columnHighlightRange = NSMakeRange(highlightedRange.location, highlightedRange.length)
+                }
                 self.contentTextView.textStorage?.addAttribute(.backgroundColor, value: color, range: columnHighlightRange)
                 if let message = message {
                     self.contentTextView.textStorage?.addAttribute(.toolTip, value: message, range: columnHighlightRange)
